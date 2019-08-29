@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from roles.models import ClinicUser, Patient
+from roles.models import ClinicUser, Paciente, Medico
 
 
 class ClinicUserCreationForm(forms.ModelForm):
@@ -87,7 +87,7 @@ class PatientCreationForm(forms.ModelForm):
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
     class Meta:
-        model = Patient
+        model = Paciente
         fields = ['nome', 'email', 'rg', 'cpf']
 
     def clean_password2(self):
@@ -121,3 +121,46 @@ class PatientAdmin(admin.ModelAdmin):
     ordering = ('email',)
     filter_horizontal = ()
 
+# /////////////////////////////////////////////////////////////////////////////
+
+
+class MedicoUserCreationForm(forms.ModelForm):
+    """A form for creating new users. Includes all the required
+    fields, plus a repeated password."""
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+
+    class Meta:
+        model = Medico
+        fields = fields = ['nome', 'email', 'crm']
+
+    def clean_password2(self):
+        # Check that the two password entries match
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("Passwords don't match")
+        return password2
+
+    def save(self, commit=True):
+        # Save the provided password in hashed format
+        medico = super().save(commit=False)
+        medico.set_password(self.cleaned_data["password1"])
+        medico.is_doctor = True
+        if commit:
+            medico.save()
+        return medico
+
+
+class MedicoAdmin(admin.ModelAdmin):
+    #form = PatientCreationForm
+    add_form = MedicoUserCreationForm
+
+    list_display = ('nome', 'email', 'crm')
+    fieldsets = (
+        ('Informções', {'fields': ('nome', 'email', 'password', 'crm')}),
+    )
+
+    search_fields = ('nome', 'email', 'crm')
+    ordering = ('email',)
+    filter_horizontal = ()

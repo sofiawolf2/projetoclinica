@@ -68,10 +68,19 @@ class ClinicUser(AbstractBaseUser):
         #aqui estamos conferindo se o usuário é admin
 
 
-class Patient(ClinicUser):
+class Paciente(ClinicUser):
     rg = models.CharField(max_length=7, unique=True)
     cpf = models.CharField(max_length=11, unique=True)
 
     def save(self, *args, **kwargs):
         self.is_patient = True
-        super(Patient, self).save(*args, **kwargs)
+        super(Paciente, self).save(*args, **kwargs)
+
+# ////////////////////////////////////////////////////////////
+
+class Medico(ClinicUser):
+    crm = models.CharField(max_length=7, unique=True)
+
+    def save(self, *args, **kwargs):
+        self.is_doctor = True
+        super(Medico, self).save(*args, **kwargs)
