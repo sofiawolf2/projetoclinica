@@ -36,8 +36,9 @@
                 <li><a class="names" href="{% url 'users:logar_user' %}">Login</a></li>
 
                 {% else %}
-                <!-- <li><a class="names"  href="{ url 'users:sobre_user' request.user.id }">Olá, {{request.user}} </a></li> -->
-                <li>Olá, {{request.user}}</li>
+                <li><a class="names">Olá, {{request.user.nome}} </a></li>
+                <!-- href="{ url 'users:sobre_user' request.user.id }" -->
+                <!-- <li>Olá, {{request.user}}</li> -->
                 <li><a class="names" href="{% url 'users:logout_user' %}">Sair</a></li>
                 {% endif %}
 

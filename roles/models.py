@@ -36,6 +36,7 @@ class ClinicUserManager(BaseUserManager):
 
 # Create your models here.
 class ClinicUser(AbstractBaseUser):
+    nome = models.CharField(unique=True, max_length=30, verbose_name='nome')
     email = models.EmailField(unique=True)
 
     is_admin = models.BooleanField(default=False)
@@ -44,7 +45,7 @@ class ClinicUser(AbstractBaseUser):
 
     objects = ClinicUserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'email'    #Usado para logar, juntamente, com a senha
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"

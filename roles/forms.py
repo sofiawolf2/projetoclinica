@@ -43,7 +43,7 @@ class ClinicUserChangeForm(forms.ModelForm):
 
     class Meta:
         model = ClinicUser
-        fields = ('email', 'password', 'is_patient', 'is_doctor', 'is_admin')
+        fields = ('nome', 'email', 'password', 'is_patient', 'is_doctor', 'is_admin')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -63,7 +63,7 @@ class ClinicUserAdmin(BaseUserAdmin):
     list_display = ('email', )
     list_filter = ('is_admin', 'is_doctor', 'is_patient')
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
+        (None, {'fields': ('nome', 'email', 'password')}),
         ('Permissions', {'fields': ('is_admin', 'is_doctor', 'is_patient')}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -71,7 +71,7 @@ class ClinicUserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2')}
+            'fields': ('nome', 'email', 'password1', 'password2')}
         ),
     )
     search_fields = ('email',)
@@ -88,7 +88,7 @@ class PatientCreationForm(forms.ModelForm):
 
     class Meta:
         model = Patient
-        fields = ['email', 'rg', 'cpf']
+        fields = ['nome', 'email', 'rg', 'cpf']
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -112,12 +112,12 @@ class PatientAdmin(admin.ModelAdmin):
     #form = PatientCreationForm
     add_form = PatientCreationForm
 
-    list_display = ('email', 'rg', 'cpf')
+    list_display = ('nome', 'email', 'rg', 'cpf')
     fieldsets = (
-        ('Informções', {'fields': ('email', 'password', 'rg', 'cpf')}),
+        ('Informções', {'fields': ('nome', 'email', 'password', 'rg', 'cpf')}),
     )
 
-    search_fields = ('email', 'rg', 'cpf')
+    search_fields = ('nome', 'email', 'rg', 'cpf')
     ordering = ('email',)
     filter_horizontal = ()
 
