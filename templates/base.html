@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <title> {% block title %}{% endblock title %} </title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
+  
+
+    {% block style %}{% endblock style %}
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="{% url 'core:index' %}">Clínica</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+      <li><a class="names" href="{% url 'core:index' %}">Home</a></li>
+                <!-- <li><a class="names" href="{ url 'exames:ver_exames' }">Exames</a></li>
+                <li><a class="names" href="{ url 'exames:criar_exame' }">Adicionar Exame</a></li> -->
+
+                {% if not request.user.is_authenticated  %}
+                <li><a class="names" href="{% url 'users:logar_user' %}">Login</a></li>
+
+                {% else %}
+                <!-- <li><a class="names"  href="{ url 'users:sobre_user' request.user.id }">Olá, {{request.user}} </a></li> -->
+                <li>Olá, {{request.user}}</li>
+                <li><a class="names" href="{% url 'users:logout_user' %}">Sair</a></li>
+                {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</nav>
+  {% block body %} {% endblock body %}
+</body>
+</html>

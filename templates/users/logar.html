@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+<!-- essas chaves e porcentagens é usado para nos conectar com os padrões do base.html
+Dessa forma so temos a necessidade de fazer as mudanças realmente necessárias
+evitando ter muito códico repetido. assim só mudamos o que realmente diferencia
+um html de outro, economizando codico, tempo e esforços -->
+{% load static %}
+
+{% block title %}
+LOGIN
+{% endblock title %}
+
+{% block scripts %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock scripts %}
+
+{% block body %}
+<center>
+<form method="post">
+{%csrf_token%}
+{{form.as_p}}
+<button type="submit" class="btn btn-success">Logar</button>
+</form>
+</center>
+
+{% endblock body %}
